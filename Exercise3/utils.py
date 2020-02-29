@@ -29,14 +29,13 @@ def displayData(X, example_width=None, figsize=(10, 10)):
 
     fig, ax_array = pyplot.subplots(display_rows, display_cols, figsize=figsize)
     fig.subplots_adjust(wspace=0.025, hspace=0.025)
-
     ax_array = [ax_array] if m == 1 else ax_array.ravel()
 
     for i, ax in enumerate(ax_array):
         ax.imshow(X[i].reshape(example_width, example_width, order='F'),
                   cmap='Greys', extent=[0, 1, 0, 1])
         ax.axis('off')
-
+    #pyplot.show()
 
 def sigmoid(z):
     """
