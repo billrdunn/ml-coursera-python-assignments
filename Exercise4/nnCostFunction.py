@@ -99,33 +99,36 @@ def nnCostFunction(nn_params,
 
     # ====================== YOUR CODE HERE ======================
 
-    # Add column of 1s to X matrix
-    X = np.column_stack((np.zeros(m), X))
-    assert X.shape == (5000,401)
+    # NB throughout, the number of rows of matrix = number of training examples (in this case m = 5000)
 
-    # Find the activations of the second layer
-    z2_new = np.dot(X, Theta1.T)
-    assert z2_new.shape == (5000,25)
-    a2 = sigmoid(z2_new)
+    # Add column of 1s to X matrix
+    X = np.column_stack((np.ones(m), X)) # X.shape = (5000,401)
+
+    # Multiply inputs (X) by parameters (theta1)
+    z2 = np.dot(X, Theta1.T) # z2.shape = (5000,25)
+
+    # Pass through activation function to get activations of second layer
+    a2 = sigmoid(z2) # a2.shape = (5000,25)
 
     # Add column of ones
-    a2 = np.column_stack((np.ones((a2.shape[0], 1)), a2))
-    assert a2.shape == (5000,26)
+    a2 = np.column_stack((np.ones((a2.shape[0], 1)), a2)) # a2.shape == (5000,26)
 
-    # Find the activations of the third layer (ie. hypothesis)
-    z3 = np.dot(a2, Theta2.T)
-    assert z3.shape == (5000,10)
+    # Multiply second layer (a2) by parameters (theta2) 
+    z3 = np.dot(a2, Theta2.T) # z3.shape = (5000,10)
 
-    a3 = sigmoid(z3)
-    h = a3
+    # Pass through activation function to get activations of third layer (hypothesis function)
+    a3 = sigmoid(z3) # a3.shape = (5000,10)
+    h = a3 # rename for simplicity
 
-     # Convert y labels into vectors
-    labels = y
+    # Convert y labels into vectors, ie. from "training example i is a number 5", to [0,0,0,0,0,1,0,0,0,0]
+    # preseve original labels
+    labels = y 
     y = np.zeros((m, num_labels))
-
     for i, label in enumerate(labels):
-        to_put = np.insert(np.zeros(9,), label, 1)
-        y[i,:] = to_put
+        # create the new vector
+        vector = np.insert(np.zeros(num_labels - 1,), label, 1)
+        # put the vector in the right place in y
+        y[i,:] = vector
 
     # Compute cost for all i
     cost = 0

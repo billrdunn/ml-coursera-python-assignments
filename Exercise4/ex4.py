@@ -64,3 +64,6 @@ lambda_ = 0
 
 print('Cost at parameters (loaded from ex4weights): %.6f ' % J)
 print('The cost should be about                   : 0.287629.')
+
+grader[1] = nnCostFunction
+#grader.grade()
